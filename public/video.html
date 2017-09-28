@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Socket</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous">
+
+    </script>
+    <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <!--<script src="demo.js"></script>-->
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="./simple-peer/simplepeer.min.js">Submit</script>
+</head>
+<body>
+<div class="container">
+
+    <div id="video-container">
+        <video id="their-video" autoplay class="their-video"></video>
+        <video id="my-video" muted="false" autoplay class="my-video"></video>
+
+    </div>
+    <div id="step1-error">
+        Failed
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="webRtc.js"></script>
+
+<script>
+
+    var video = document.getElementById('my-video');
+
+    if (video) {
+        video.addEventListener('loadedmetadata', function() {
+            console.log('Remote video videoWidth: ' + this.videoWidth +
+                'px,  videoHeight: ' + this.videoHeight + 'px');
+        });
+
+        video.onresize = function() {
+            console.log('Remote video size changed to ' +
+                video.videoWidth + 'x' + video.videoHeight);
+            // We'll use the first onsize callback as an indication that video has started
+            // playing out.
+            if (startTime) {
+                var elapsedTime = window.performance.now() - startTime;
+                console.log('Setup time: ' + elapsedTime.toFixed(3) + 'ms');
+                startTime = null;
+            }
+        };
+    }
+</script>
+
+
+
+
+</body>
+</html>

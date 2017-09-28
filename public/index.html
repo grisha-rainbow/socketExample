@@ -3,15 +3,54 @@
     <head>
         <meta charset="utf-8">
         <title>Socket</title>
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.js"
+                integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+                crossorigin="anonymous">
+        </script>
+        <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+        <script src="./simple-peer/simplepeer.min.js"></script>
+        <!--<script src="demo.js"></script>-->
+        <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+        <style>
+            #outgoing {
+                width: 600px;
+                word-wrap: break-word;
+            }
+        </style>
     </head>
     <body>
+
+    <a href="./video.html">Video</a>
+    <form onsubmit="makeConnection()">
+        <textarea id="incoming"></textarea>
+        <button type="submit">submit</button>
+    </form>
+    <pre id="outgoing"></pre>
         <div class="container">
-            <p>Placeholder</p>
+            <div style="height:500px; width:500px">
+                <a-scene embedded>
+                    <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+                    <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+                    <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+                    <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+                    <a-sky color="#ECECEC"></a-sky>
+                </a-scene>
+            </div>
+
+            <div id="video-container">
+                <video id="their-video" autoplay class="their-video"></video>
+                <video id="my-video" muted="false" autoplay class="my-video"></video>
+            </div>
+
+            <div id="step1-error">
+                Failed
+            </div>
         </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io('http://localhost:3000');
-    </script>
+    <script src="webRtc.js"></script>
+
     </body>
 </html>
