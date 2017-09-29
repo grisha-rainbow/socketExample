@@ -8,24 +8,24 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-var stream;
-
 io.on('connection', function (socket) {
 
     console.log('new connection made');
 
 
-    socket.emit('signal', {});
-    socket.on('video-from-client', function (evt) {
-        console.log('video-from-client', evt);
-        if (stream) {
-            socket.emit('send-video-backend', stream);
-        } else {
-            stream = evt;
-            socket.emit('send-video-backend', stream);
-        }
+    socket.on('signal', function (evt) {
+        console.log("Signal event!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", evt)
     });
 
+
+    socket.on('send-message', function (evt) {
+        console.log('video-from-client', evt);
+        socket.broadcast.emit('get-message', evt);
+    });
+
+    socket.on('disconnect', function() {
+        console.log("Client disconnect");
+    });
 });
 
 server.listen(port, function () {
