@@ -12,12 +12,12 @@ var socket = io('http://localhost:3000');
 //                        {url: 'http://localhost:3000'},
 //                    ]}});
 
-//console.log(navigator);
 var canvas = document.querySelector('canvas');
 var video = document.getElementById('my-video');
 
 var pc1;
 var pc2;
+
 var offerOptions = {
     offerToReceiveAudio: 1,
     offerToReceiveVideo: 1
@@ -48,13 +48,10 @@ if (video) {
 //main();
 
 var stream = canvas.captureStream();
-//console.log('Got stream from canvas');
-//console.log("Stream", stream);
 
 setTimeout(function () {
     socket.emit('send-message', {message: canvas.captureStream()});
 }, 2000);
-
 
 // socket.on('get-message', function (evt) {
 //     stream = evt.message;
@@ -63,9 +60,7 @@ setTimeout(function () {
 //
 // });
 
-
 // pc1 = new RTCPeerConnection();
-
 // //console.log("pc1", pc1);
 
 // socket.emit('video-from-client', {
@@ -80,7 +75,6 @@ setTimeout(function () {
 call();
 
 function call() {
-    //console.log('Starting call');
     startTime = window.performance.now();
     var videoTracks = stream.getVideoTracks();
     var audioTracks = stream.getAudioTracks();
@@ -95,10 +89,8 @@ function call() {
 
     var servers = {
         iceServers: [     // Information about ICE servers - Use your own!
-
-            { url: "stun:23.21.150.121" },
+            // { url: "stun:23.21.150.121" },
             { url: "stun:stun.l.google.com:19302" }
-
             // {
             //     urls: "stun:" + 'localhost:3000',  // A TURN server
             //     username: "webrtc",
@@ -113,6 +105,7 @@ function call() {
         onIceCandidate(pc1, e);
         // console.log('On ice candidate!!!!!!!!!!!!!!!!!!', e);
     };
+
     pc2 = new RTCPeerConnection(servers);
     //console.log('Created remote peer connection object pc2', pc2);
     pc2.onicecandidate = function(e) {

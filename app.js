@@ -11,12 +11,14 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 io.on('connection', function (socket) {
 
     console.log('new connection made');
-
-
     socket.on('signal', function (evt) {
         console.log("Signal event!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", evt)
     });
 
+    socket.on('message', function (data) {
+        console.log("Socket MESSAGE", data);
+        socket.broadcast.emit('message', data);
+    });
 
     socket.on('send-message', function (evt) {
         console.log('video-from-client', evt);
